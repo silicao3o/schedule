@@ -9,7 +9,6 @@ public class ScheduleResponseDto {
     private String toDoTitle;
     private String toDoList;
     private String director;
-    private String password;
     private int date;
 
     public ScheduleResponseDto(Schedule schedule) {
@@ -17,16 +16,14 @@ public class ScheduleResponseDto {
         this.toDoTitle = schedule.getToDoTitle();
         this.toDoList = schedule.getToDoList();
         this.director = schedule.getDirector();
-        this.password = schedule.getPassword();
         this.date = schedule.getDate();
     }
 
-    public ScheduleResponseDto(Long id, String toDoTitle, String toDoList, String director, String password, int date) {
+    public ScheduleResponseDto(Long id, String toDoTitle, String toDoList, String director, int date) {
         this.id = id;
         this.toDoTitle = toDoTitle;
         this.toDoList = toDoList;
         this.director = director;
-        this.password = password;
         this.date = date;
     }
 }
