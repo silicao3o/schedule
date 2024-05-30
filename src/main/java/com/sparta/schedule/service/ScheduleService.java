@@ -37,7 +37,10 @@ public class ScheduleService {
         /*
          * select * from schedule order by date desc;
          */
-        return scheduleRepository.findAllOrderByDateDesc().stream().map(ScheduleResponseDto::new).toList();
+        return scheduleRepository.findAllByOrderByDateDesc()
+                .stream()
+                .map(ScheduleResponseDto::new)
+                .toList();
     }
 
     /*

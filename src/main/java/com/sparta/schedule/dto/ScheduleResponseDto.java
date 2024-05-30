@@ -18,12 +18,4 @@ public class ScheduleResponseDto {
         this.director = schedule.getDirector();
         this.date = schedule.getDate();
     }
-
-    public ScheduleResponseDto(Long id, String toDoTitle, String toDoList, String director, int date) {
-        this.id = id;
-        this.toDoTitle = toDoTitle;
-        this.toDoList = toDoList;
-        this.director = director;
-        this.date = date;
-    }
 }

@@ -30,7 +30,6 @@ public class ScheduleController {
     @PutMapping("/scheduler/{id}")
     public ScheduleResponseDto updateMemo(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto) {
         return scheduleService.updateSchedule(id, requestDto);
-
     }
 
     @DeleteMapping("/scheduler/{id}")
