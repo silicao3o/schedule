@@ -1,7 +1,6 @@
 package com.sparta.schedule.entity;
 
 import com.sparta.schedule.dto.CommentRequestDto;
-import com.sparta.schedule.dto.CommentResponseDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,10 +30,16 @@ public class Comment {
         this.timestamp =  new Timestamp(System.currentTimeMillis());
     }
 
-    public void update(CommentResponseDto commentResponseDto) {
-        this.comment = commentResponseDto.getComment();
-        this.userId = commentResponseDto.getUserId();
-        this.scheduleId = commentResponseDto.getScheduleId();
-        this.timestamp = commentResponseDto.getTimestamp();
+    public void update(CommentRequestDto commentRequestDto) {
+        this.comment = commentRequestDto.getComment();
+        this.userId = commentRequestDto.getUserId();
+        this.scheduleId = commentRequestDto.getScheduleId();
+        this.timestamp = commentRequestDto.getTimestamp();
+    }
+
+    public void verifyUserId(Long userId) {
+        if (!this.userId.equals(userId)) {
+            throw new SecurityException("UserId does not match");
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.sparta.schedule.dto.CommentResponseDto;
 import com.sparta.schedule.entity.Comment;
 import com.sparta.schedule.repository.CommentRepository;
 import com.sparta.schedule.repository.ScheduleRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 
@@ -22,9 +23,11 @@ public class CommentService {
     public CommentResponseDto createComment(CommentRequestDto commentRequestDto) {
         // ScheduleId를 입력받았는지 확인
         commentRequestDto.notFoundScheduleId(commentRequestDto);
+        // Comment가 null인지 확인
         commentRequestDto.emptyComment(commentRequestDto);
         // RequestDto -> Entity
         Comment comment = new Comment(commentRequestDto);
+        // Schedule ID 찾기
         scheduleRepository.findById(commentRequestDto.getScheduleId());
         // DB 저장
         Comment saveComment = commentRepository.save(comment);
@@ -32,14 +35,22 @@ public class CommentService {
 
         return commentResponseDto;
     }
-    // 입력받을 때 스케쥴 id를 넣지 않았을 때
-    // 스케쥴 id 찾기
-    // 댓글 작성
-    // 댓글을 작성하지 않았을 시 예외처리
-    // 댓글 저장
 
-//    public Comment findComment(Long id) {
-//        return comentRepository.findById(id).orElseThrow(() ->
-//                new IllegalArgumentException("Comment not found"));
-//    }
+    @Transactional
+    public CommentResponseDto updateComments(Long id, CommentRequestDto commentRequestDto) {
+        // ScheduleId 혹은 CommentId를 받았는지 확인
+        commentRequestDto.notFoundScheduleId(commentRequestDto);
+        commentRequestDto.notFoundCommentId(commentRequestDto);
+        //해당 댓글이 DB에 존재하는지 확인
+        Comment comment = findComment(id);
+        // 댓글의 사용자가 현재 사용자와 일치하는지 확인
+        comment.verifyUserId(id);
+        comment.update(commentRequestDto);
+        return new CommentResponseDto(comment);
+    }
+
+    public Comment findComment(Long id) {
+        return commentRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("Comment not found"));
+    }
 }

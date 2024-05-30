@@ -30,6 +30,10 @@ public class ScheduleService {
     }
 
     public List<ScheduleResponseDto> getSchedules() {
+        return scheduleRepository.findAllByOrderByDateDesc()
+                .stream()
+                .map(ScheduleResponseDto::new)
+                .toList();
         /*
          * select * from schedule
          */
@@ -37,10 +41,6 @@ public class ScheduleService {
         /*
          * select * from schedule order by date desc;
          */
-        return scheduleRepository.findAllByOrderByDateDesc()
-                .stream()
-                .map(ScheduleResponseDto::new)
-                .toList();
     }
 
     /*
