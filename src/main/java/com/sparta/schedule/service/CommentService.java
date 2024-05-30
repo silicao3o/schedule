@@ -45,8 +45,22 @@ public class CommentService {
         Comment comment = findComment(id);
         // 댓글의 사용자가 현재 사용자와 일치하는지 확인
         comment.verifyUserId(id);
+        //댓글 업데이트
         comment.update(commentRequestDto);
         return new CommentResponseDto(comment);
+    }
+
+    public Long deleteComment(Long id, CommentRequestDto commentRequestDto) {
+        // ScheduleId 혹은 CommentId를 받았는지 확인
+        commentRequestDto.notFoundScheduleId(commentRequestDto);
+        commentRequestDto.notFoundCommentId(commentRequestDto);
+        //해당 댓글이 DB에 존재하는지 확인
+        Comment comment = findComment(id);
+        // 댓글의 사용자가 현재 사용자와 일치하는지 확인
+        comment.verifyUserId(id);
+        // 댓글 삭제
+        commentRepository.delete(comment);
+        return id;
     }
 
     public Comment findComment(Long id) {
